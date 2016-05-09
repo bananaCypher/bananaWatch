@@ -22,7 +22,7 @@ var BananaWatcher = function(obj, prop, callbacks){
       };
     }
     if(that.callbacks.get){
-      that.callbacks.get(value); 
+      return that.callbacks.get(value) || value; 
     }
     return value;
   }
@@ -30,12 +30,13 @@ var BananaWatcher = function(obj, prop, callbacks){
   that.set = function(newValue){
     var value = that.obj[that.newProp];
     if(that.callbacks.setChecker){
-      if (!that.callbacks.setChecker(value)) {
+      if (!that.callbacks.setChecker(value, newValue)) {
         return;
       };
     }
     if(that.callbacks.set){
-      that.callbacks.set(value, newValue);
+      that.obj[that.newProp] = that.callbacks.set(value, newValue) || newValue;
+      return
     }
     that.obj[that.newProp] = newValue;
   }

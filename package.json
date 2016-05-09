@@ -1,11 +1,22 @@
 {
   "name": "bananawatcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library to help quickly and easily set up getters and setters.",
+  "author": "bananaCypher <bananaCypher@gmail.com>",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bananaCypher/bananaWatch"
+  },
+  "bugs": {
+    "url": "https://github.com/bananaCypher/bananaWatch/issues"
+  },
   "author": "bananaCypher",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
 }
