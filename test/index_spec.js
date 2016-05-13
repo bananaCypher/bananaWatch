@@ -16,85 +16,78 @@ describe('BananaWatcher', function(){
     assert.equal(watcher instanceof bWatch, true);
   });
 
-  it('should be able to set up a get watcher', function(done){
+  it('should be able to set up a get that returns the right value', function(){
     bWatch(testObject, 'foo', {
-      get: function(){
-        done();
-        return 'foo foo';
+      get: function(value){
+        // do some stuff with the value
+        return value;
       }
     });  
-    'bunny bunny' + testObject.foo;
+    assert.equal(testObject.foo, 'foo');
   });
 
-  it('should be able to set up a set watcher', function(done){
+  it('should be able to set up a get that returns a different value', function(){
     bWatch(testObject, 'foo', {
-      set: function(){
-        done();
-        return 'foo foo';
+      get: function(value){
+        var newValue = 'bunny bunny' + ' ' + value + ' ' + value;
+        // do some stuff with the value
+        return newValue;
       }
     });  
-    testObject.foo = 'bunny bunny';
+    assert.equal(testObject.foo, 'bunny bunny foo foo');
   });
 
-  it('should be able to set up a get checker', function(done){
-    bWatch(testObject, 'foo', {
-      getChecker: function(){
-        //do some sheit
-        //check some stuffs
-        return true
-      }
-    }); 
+  it('should be able to set up a get that calls a custom function', function(done){
+    var finishTheTest = function(value){
+      if(value == 'foo'){ done() }
+    }
 
-    setTimeout(function() {
-      assert.equal('bunny bunny' + testObject.foo, 'bunny bunnyfoo');
-      done(); 
-    }, 100);
-  });
-
-  it('should not return the value if get checker fails', function(done){
     bWatch(testObject, 'foo', {
-      getChecker: function(){
-        //do some sheit
-        //check some stuffs
-        return false
+      get: function(value){
+        finishTheTest(value);
+        // do some stuff with the value
+        return value;
       }
     });  
-
-    setTimeout(function() {
-      assert.equal('bunny bunny' + testObject.foo, 'bunny bunnyundefined');
-      done(); 
-    }, 100);
+    assert.equal(testObject.foo, 'foo');
   });
 
-  it('should be able to set up a set checker', function(done){
+  it('should be able to set up a set that properly sets the value', function(){
     bWatch(testObject, 'foo', {
-      setChecker: function(){
-        //do some sheit
-        //check some stuffs
-        return true;
+      set: function(oldValue, newValue){
+        // do some stuff with the value
+        return newValue;
       }
     });  
-
-    setTimeout(function() {
-      testObject.foo = 'bunny';
-      assert.equal(testObject.foo, 'bunny');
-      done(); 
-    }, 100);
+    testObject.foo = 'bar';
+    assert.equal(testObject.foo, 'bar');
   });
 
-  it('should not be able to set a value if set checker fails', function(done){
+  it('should be able to set up a set that changes the set value', function(){
     bWatch(testObject, 'foo', {
-      setChecker: function(){
-        //do some sheit
-        //check some stuffs
-        return false;
+      set: function(oldValue, newValue){
+        var changed = 'banana_' + newValue;
+        // do some stuff with the value
+        return changed;
       }
     });  
+    testObject.foo = 'bar';
+    assert.equal(testObject.foo, 'banana_bar');
+  });
 
-    setTimeout(function() {
-      testObject.foo = 'bunny';
-      assert.equal(testObject.foo, 'foo');
-      done(); 
-    }, 100);
+  it('should be able to set up a set that calls a custom function', function(done){
+    var finishTheTest = function(value){
+      if(value == 'bar'){ done() }
+    }
+
+    bWatch(testObject, 'foo', {
+      set: function(oldValue, newValue){
+        finishTheTest(newValue);
+        // do some stuff with the value
+        return newValue;
+      }
+    });  
+    testObject.foo = 'bar';
+    assert.equal(testObject.foo, 'bar');
   });
 });

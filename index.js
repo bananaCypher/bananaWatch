@@ -16,30 +16,21 @@ var BananaWatcher = function(obj, prop, callbacks){
 
   that.get = function(){
     var value = that.obj[that.newProp];
-    if(that.callbacks.getChecker){
-      if (!that.callbacks.getChecker(value)) {
-        return;
-      };
+    if (that.callbacks.get){
+      return that.callbacks.get(value);
+    } else {
+      return value;
     }
-    if(that.callbacks.get){
-      return that.callbacks.get(value) || value; 
-    }
-    return value;
   }
 
   that.set = function(newValue){
     var value = that.obj[that.newProp];
-    if(that.callbacks.setChecker){
-      if (!that.callbacks.setChecker(value, newValue)) {
-        return;
-      };
+    if (that.callbacks.set){
+      that.obj[that.newProp] = that.callbacks.set(value, newValue);
+    } else {
+      that.obj[that.newProp] = newValue;
     }
-    if(that.callbacks.set){
-      that.obj[that.newProp] = that.callbacks.set(value, newValue) || newValue;
-      return
-    }
-    that.obj[that.newProp] = newValue;
-  }
+  };
 
   Object.defineProperty(that.obj, that.prop, {
     get: that.get,

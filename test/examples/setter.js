@@ -1,7 +1,7 @@
 var bWatch = require('../../index.js');
 
 var user = {
-  user_id   : 420,
+  user_id   : 1337,
   name      : 'Barry Manilow',
   username  : 'bazaTheGreat'
 };
@@ -13,5 +13,5 @@ bWatch(user, 'username', {
   }
 });
 
-user.username = '[$$$-IamBarry-$$$]';
+user.username = '<---IamBarry--->';
 console.log(user.name, 'your username is:', user.username);
