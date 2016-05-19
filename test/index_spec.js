@@ -99,8 +99,10 @@ describe('BananaWatcher', function(){
 
 
   describe('Arrays', function(){
-    describe('Array getters', function(){
-
+    it('should still function as normal if no getter or setter are defined', function(){
+      bWatch(testObject, 'foobar', {});
+      testObject.foobar.push('item3');
+      assert.equal(testObject.foobar[2], 'item3');
     });
 
     describe('Array setters', function(){
@@ -134,11 +136,6 @@ describe('BananaWatcher', function(){
         testObject.foobar.push('item3');
       });
 
-      it('should still function as normal if no getter or setter are defined', function(){
-        bWatch(testObject, 'foobar', {});
-        testObject.foobar.push('item3');
-        assert.equal(testObject.foobar[2], 'item3');
-      });
     });
   });
 
