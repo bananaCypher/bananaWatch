@@ -1,6 +1,6 @@
 {
   "name": "bananawatcher",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A library to help quickly and easily set up getters and setters.",
   "author": "bananaCypher <bananaCypher@gmail.com>",
   "main": "index.js",
