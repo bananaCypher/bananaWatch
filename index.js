@@ -34,8 +34,18 @@ var BananaWatcher = function(obj, prop, callbacks){
 
   Object.defineProperty(that.obj, that.prop, {
     get: that.get,
-    set: that.set
+    set: that.set,
   });
+  if(that.obj[that.newProp].constructor.name === 'Array'){
+    that.obj[that.prop].push = function(value){
+      var oldValue = that.obj[that.newProp];
+      if (that.callbacks.set){
+        that.obj[that.newProp] = that.obj[that.newProp].concat(that.callbacks.set(oldValue, value));
+      } else {
+        that.obj[that.newProp] = that.obj[that.newProp].concat(value);
+      }
+    }
+  }
 
   return that;
 }
